@@ -27,6 +27,13 @@ function custom_theme_setup() {
 }
 add_action( 'after_setup_theme', 'custom_theme_setup' );
 
+// Ajout du support des images mises en avant//
+add_theme_support('post-thumbnails');
+
+
+
+
+
 // Js script //
 
 function nathalie_mota_enqueue_scripts() {

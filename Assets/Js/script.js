@@ -6,28 +6,43 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-//modale de contact//
+// BOUTON DE CONTACT DU HEADER ET DE LA PAGE SINGLE-PHOTOS //
 
 jQuery(document).ready(function($) {
-    
-    $('a[href="#modal-contact"]').click(function(event) {
-       
+    // Pour le bouton de contact dans le single-photos.php//
+
+    $('.single-photo-contact-button').click(function(event) {
         event.preventDefault();
+
+        
+        var referencePhoto = $(this).attr('data-reference');// Récupérer la référence photo depuis l'attribut data-reference du bouton//
+        
+        
+        $('#modal-contact input[name="your-subject"]').val(referencePhoto);// Remplir le champ de référence photo dans le formulaire de Contact Form 7//
+
+        
+        $('#modal-contact').show();
+    });
+
+    // Pour le lien de contact dans le header//
+    $('a[href="#modal-contact"]').click(function(event) {
+        event.preventDefault();
+
+        
+        $('#modal-contact input[name="your-subject"]').val('');// Vérifier que le champ de référence photo est vide//
+
         
         $('#modal-contact').show();
     });
 
     
-    $('.close').click(function() {
-        
+    $('.close').click(function() {// Fermeture de la modale//
         $('#modal-contact').hide();
     });
 });
 
+//Menu Burger mobile
 
-
-// Menu Burger mobile //
 
 jQuery(document).ready(function($) {
     
@@ -53,6 +68,47 @@ jQuery(document).ready(function($) {
     });
 });
 
+// menu navigation photo single-photos//
+
+jQuery(document).ready(function($) {
+    
+    function updateThumbnail(thumbnailUrl) {// Fonction pour la mise à jour la miniature//
+        $('.thumbnail-wrapper').css('background-image', 'url(' + thumbnailUrl + ')');
+    }
+
+    // Au chargement de la page, afficher la miniature de la photo actuelle//
+    var currentThumbnailUrl = $('.thumbnail-wrapper').css('background-image').replace(/url\(['"]?(.*?)['"]?\)/,'$1');
+    updateThumbnail(currentThumbnailUrl);
+
+    
+    $('.prev-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche précédente gauche)//
+        let prevThumbnail = $(this).data('thumbnail');
+        updateThumbnail(prevThumbnail);
+    });
+
+    
+    $('.next-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche suivante droite//
+        let nextThumbnail = $(this).data('thumbnail');
+        updateThumbnail(nextThumbnail);
+    });
+
+    
+    $('.navigation-photo').mouseleave(function() { //met à jour la miniature affichée avec l'image de la photo actuelle sur la page//
+        updateThumbnail(currentThumbnailUrl);
+    });
+
+    // Gestionnaire d'événements pour le clic sur la flèche précédente gauche//
+    $('.prev-link').click(function(event) {
+        event.preventDefault(); // Empêche le comportement par défaut du lien//
+        window.location.href = $(this).attr('href'); // Redirige vers le lien précédent//
+    });
+
+    // Gestionnaire d'événements pour le clic sur la flèche suivante droite//
+    $('.next-link').click(function(event) {
+        event.preventDefault(); // Empêche le comportement par défaut du lien//
+        window.location.href = $(this).attr('href'); // Redirige vers le lien suivant//
+    });
+});
 
 
 
