@@ -33,11 +33,10 @@ Author: Sana-197
         if ($random_image->have_posts()) {
             while ($random_image->have_posts()) {
                 $random_image->the_post();
-                echo '<img class="hero-image" src="';
-                echo esc_url(get_the_post_thumbnail_url());
-                echo '" />';
+                echo '<img class="hero-image" src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="Image héro" />';
             }
         }
+        
         wp_reset_postdata();
         ?>  
      </section>
