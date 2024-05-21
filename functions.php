@@ -30,6 +30,12 @@ add_action( 'after_setup_theme', 'custom_theme_setup' );
 // Ajout du support des images mises en avant//
 add_theme_support('post-thumbnails');
 
+//lightbox script// 
+
+function enqueue_lightbox_script() {
+    wp_enqueue_script('lightbox-script', get_template_directory_uri() . '/Assets/Js/lightbox.js', array('jquery'), null, true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_lightbox_script');
 
 
 
