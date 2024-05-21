@@ -104,10 +104,15 @@ body {
     font-family: 'Space Mono', monospace;
     font-size: 17px;
     }
+   
+ #menu-item-69 a:hover,
+#menu-item-60 a:hover,
+#menu-item-71 a:hover{
 
-#menu-item-61 {
-    margin-right: 6rem; 
+    font-weight: bold;
 }
+
+
 
 #menu-footer{
     position: relative; 
@@ -536,6 +541,10 @@ body {
     .bloc-photo-colonnes {
         flex-direction: column;
     }
+    .zone-contenu{
+        margin-right: 1rem;
+        margin-left:1rem;
+    }
 
    
 
@@ -813,6 +822,216 @@ body {
     .photo-information {
         opacity: 1; 
     }
+}
+
+
+ /* Page d'accueil hero */
+ .hero {
+    position: relative;
+    height: 782px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.hero-image {
+    
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    
+}
+
+
+.hero-title-pc, .hero-title-mobile{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    height: auto;
+    
+}
+
+.hero-title-mobile {
+    display: none;
+}
+
+/* Media query pour mobile  */
+@media only screen and (max-width: 430px) {
+    .hero {
+        height: auto;
+    }
+
+    .hero-title-pc{
+        display: none;
+    }
+
+    .hero-title-mobile {
+        display: block;
+    }
+}
+
+
+/*image container page d'accueil*/
+
+.images-container {
+    position: relative;
+    display: block;
+    height: auto; 
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.related-photo-accueil {
+    max-width: 1126px;
+    margin: 0 auto;
+    margin-bottom: 6rem;
+}
+
+.related-photo-block-accueil {
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-gap: 20px; 
+    margin-top: 20px;
+}
+
+.related-photo-img-accueil {
+    position: relative;
+    width: 100%; 
+    height: 553px; 
+    overflow: hidden; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.3s;
+    text-align: center;
+}
+
+.related-photo-img-accueil:hover .photo-overlay {
+    opacity: 1;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fullscreen-icon {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 40px; 
+    height: 40px; 
+}
+
+.photo-information {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - 20px); 
+    padding: 0 10px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.related-photo-img-accueil:hover .photo-information {
+    opacity: 1;
+}
+
+.photo-info-left,
+.photo-info-right {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+.photo-info-left p,
+.photo-info-right p {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#load-more-button{
+   
+   background-color: #d8d8d8; 
+   width: 18rem;
+   height: 3.5rem;
+   margin: 0 auto;
+   border: none;
+   font-family: 'Space Mono', monospace;
+   margin-bottom: 4rem;
+   transition: background-color 0.5s ease-in-out, color 0.5s ease;
+    }
+    
+    #load-more-button:hover{
+        background-color: #000;
+        color: white;
+    }
+    
+    .load-more-wrapper{
+        text-align: center;
+        justify-content: center;
+    }
+
+/* fILTRES PAGE D ACCUEIL */
+ 
+
+
+.filtres {
+    max-width: 1126px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 40px;
+    display: flex;
+    justify-content: start;
+}
+
+
+#categorie-select,
+#format-select,
+#tri-select {
+    width: 260px;
+    height: 42px;
+    padding: 11px 18px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1.3px solid #B8BBC2;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+}
+
+#format-select {
+    margin-right: 0.5rem;
+}
+
+#categorie-select {
+    margin-right: 1.5rem;
+}
+
+#tri-select {
+    margin-left: auto;
+    padding: 10px 20px !important;
 }
 
 

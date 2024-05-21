@@ -25,6 +25,7 @@ jQuery(document).ready(function($) {
     });
 
     // Pour le lien de contact dans le header//
+    
     $('a[href="#modal-contact"]').click(function(event) {
         event.preventDefault();
 
@@ -41,7 +42,7 @@ jQuery(document).ready(function($) {
     });
 });
 
-//Menu Burger mobile
+// MENU BURGER MOBILE//
 
 
 jQuery(document).ready(function($) {
@@ -72,44 +73,113 @@ jQuery(document).ready(function($) {
 
 jQuery(document).ready(function($) {
     
-    function updateThumbnail(thumbnailUrl) {// Fonction pour la mise à jour la miniature//
-        $('.thumbnail-wrapper').css('background-image', 'url(' + thumbnailUrl + ')');
+    // Vérifier si l'élément .thumbnail-wrapper existe sur la page//
+    if ($('.thumbnail-wrapper').length) {
+        function updateThumbnail(thumbnailUrl) {// Fonction pour la mise à jour la miniature//
+            $('.thumbnail-wrapper').css('background-image', 'url(' + thumbnailUrl + ')');
+        }
+
+        // Au chargement de la page, afficher la miniature de la photo actuelle//
+        let currentThumbnailUrl = $('.thumbnail-wrapper').css('background-image').replace(/url\(['"]?(.*?)['"]?\)/,'$1');
+        updateThumbnail(currentThumbnailUrl);
+
+        
+        $('.prev-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche précédente gauche)//
+            let prevThumbnail = $(this).data('thumbnail');
+            updateThumbnail(prevThumbnail);
+        });
+
+        
+        $('.next-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche suivante droite//
+            let nextThumbnail = $(this).data('thumbnail');
+            updateThumbnail(nextThumbnail);
+        });
+
+        
+        $('.navigation-photo').mouseleave(function() { //met à jour la miniature affichée avec l'image de la photo actuelle sur la page//
+            updateThumbnail(currentThumbnailUrl);
+        });
+
+        // Gestionnaire d'événements pour le clic sur la flèche précédente gauche//
+        $('.prev-link').click(function(event) {
+            event.preventDefault(); // Empêche le comportement par défaut du lien//
+            window.location.href = $(this).attr('href'); // Redirige vers le lien précédent//
+        });
+
+        // Gestionnaire d'événements pour le clic sur la flèche suivante droite//
+        $('.next-link').click(function(event) {
+            event.preventDefault(); // Empêche le comportement par défaut du lien//
+            window.location.href = $(this).attr('href'); // Redirige vers le lien suivant//
+        });
+    }
+});
+
+//FILTRES PAGE D ACCUEIL // 
+
+jQuery(document).ready(function($) {
+    function loadPhotos() { // récupère  les valeurs des filtres//
+        let categorie = $('#categorie-select').val();
+        let format = $('#format-select').val();
+        let tri = $('#tri-select').val();
+
+        let data = { // prépare les données à envoyer avec la requête ajax//
+            action: 'filter_photos',
+            categorie: categorie,
+            format: format,
+            tri: tri,
+            page: 1 
+        };
+
+        $.ajax({ // Effectuer la requête ajax pour filtrer les photos//
+            url: ajax_object.ajax_url, // l'url de l'API d'ajax définie dans wordpress//
+            data: data, // données à envoyer avec la requête//
+            type: 'POST', // type de requête//
+            success: function(response) { 
+                $('.related-photo-block-accueil').html(response);// Mettre à jour le contenu avec la réponse de la requête//
+            }
+        });
     }
 
-    // Au chargement de la page, afficher la miniature de la photo actuelle//
-    var currentThumbnailUrl = $('.thumbnail-wrapper').css('background-image').replace(/url\(['"]?(.*?)['"]?\)/,'$1');
-    updateThumbnail(currentThumbnailUrl);
-
-    
-    $('.prev-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche précédente gauche)//
-        let prevThumbnail = $(this).data('thumbnail');
-        updateThumbnail(prevThumbnail);
-    });
-
-    
-    $('.next-link').mouseenter(function() {// Gestionnaire d'événements pour le survol de la flèche suivante droite//
-        let nextThumbnail = $(this).data('thumbnail');
-        updateThumbnail(nextThumbnail);
-    });
-
-    
-    $('.navigation-photo').mouseleave(function() { //met à jour la miniature affichée avec l'image de la photo actuelle sur la page//
-        updateThumbnail(currentThumbnailUrl);
-    });
-
-    // Gestionnaire d'événements pour le clic sur la flèche précédente gauche//
-    $('.prev-link').click(function(event) {
-        event.preventDefault(); // Empêche le comportement par défaut du lien//
-        window.location.href = $(this).attr('href'); // Redirige vers le lien précédent//
-    });
-
-    // Gestionnaire d'événements pour le clic sur la flèche suivante droite//
-    $('.next-link').click(function(event) {
-        event.preventDefault(); // Empêche le comportement par défaut du lien//
-        window.location.href = $(this).attr('href'); // Redirige vers le lien suivant//
+    $('#categorie-select, #format-select, #tri-select').change(function() { 
+        loadPhotos();// appelez la fonction load photos lorsque les filtres changes//
     });
 });
 
+
+
+
+// BOUTON CHARGEMENT PAGE D ACCUEIL //
+
+jQuery(document).ready(function($) {
+    // Variable pour suivre le numéro de la page
+    let pageActuelle = 1;
+
+    // Écouter le clic sur le bouton "Charger plus"//
+    $('#load-more-button').on('click', function () {
+        pageActuelle++; // Incrémenter le numéro de la page//
+        ajaxRequest(); // Appeler la fonction AJAX//
+    });
+
+    // Fonction pour effectuer la requête AJAX//
+    function ajaxRequest() {
+        $.ajax({
+            type: 'POST',
+            url: ajax_object.ajax_url, // URL de l'API Ajax de WordPress//
+            dataType: 'html',
+            data: {
+                action: 'load_more_photos', // Action à exécuter dans WordPress//
+                page: pageActuelle, // Numéro de la page actuelle//
+            },
+            success: function (response) {
+                // Traiter la réponse et l'ajouter à la galerie de photos//
+                $('.related-photo-block-accueil').append(response);
+            },
+            error: function (error) {
+                console.error('Erreur lors de la requête AJAX:', error);// ou alors messagae d'erreur//
+            },
+        });
+    }
+});
 
 
 
