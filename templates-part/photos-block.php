@@ -27,6 +27,7 @@
                         ?>
                         <div class="photo-overlay">
                             <img class="eye-icon" src="<?php echo get_template_directory_uri(); ?>/Assets/Images/Icon_eye.png" alt="eye icon">
+                    </a>       
                             <a href="#" class="fullscreen-icon">
                                 <img src="<?php echo get_template_directory_uri(); ?>/Assets/Images/Icon_fullscreen.png" alt="fullscreen icon">
                             </a>
@@ -39,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    
                 </div>
         <?php
             endwhile;

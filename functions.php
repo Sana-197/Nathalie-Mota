@@ -65,48 +65,50 @@ function load_more_photos() {
     $query = new WP_Query($args);
 
     // Vérifier si des photos sont trouvées//
-  if ($query->have_posts()) :
-    while ($query->have_posts()) : $query->the_post();
-        // Afficher la photo avec le contenu supplémentaire
-        echo '<div class="related-photo-img-accueil">';
-        echo '<a href="' . get_permalink() . '">';
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post();
+            // Afficher la photo avec le contenu supplémentaire//
+            echo '<div class="related-photo-img-accueil">';
 
-        // Ajouter la classe photo-overlay//
-        echo '<div class="photo-overlay">';
-        echo '<img class="fullscreen-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_fullscreen.png" alt="fullscreen icon">';
-        echo '<img class="eye-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_eye.png" alt="eye icon">';
-        echo '</div>'; // Fermeture de photo-overlay//
+           
+            // Ajouter la classe photo-overlay//
+            echo '<div class="photo-overlay">';
+            echo '<a href="' . get_permalink() . '">';
+            echo '<img class="eye-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_eye.png" alt="eye icon">';
+            echo '</a>'; // Fermer la première balise a//
 
-        // Afficher la photo//
-        if (has_post_thumbnail()) {
-            the_post_thumbnail('large');
-        }
-        
-        // Fermer la balise a//
-        echo '</a>';
+            echo '<a href="#" class="fullscreen-icon">';
+            echo '<img src="' . get_template_directory_uri() . '/Assets/Images/Icon_fullscreen.png" alt="fullscreen icon" data-large-url="' . wp_get_attachment_image_src(get_post_thumbnail_id(), 'large')[0] . '">'; // Ajouter data-large-url
+            echo '</a>'; // Fermer la seconde balise a//
+            echo '</div>'; // Fermeture de photo-overlay//
 
-        // Afficher la div pour les informations supplémentaires//
-        echo '<div class="photo-information">';
-        echo '<div class="photo-info-left">';
-        echo '<p>' . get_the_title() . '</p>'; // Afficher le titre de la photo//
-        echo '</div>'; // Fermeture de photo-info-left//
-        
-        // Récupérer les termes de la taxonomie "categorie"//
-        $categories = get_the_terms(get_the_ID(), 'categorie');
-        if ($categories && !is_wp_error($categories)) {
-            foreach ($categories as $category) {
-                echo '<div class="photo-info-right">';
-                echo '<p>' . $category->name . '</p>'; // Afficher le nom de la catégorie de la photo//
-                echo '</div>'; // Fermeture de photo-info-right//
+
+            // Afficher la photo
+            if (has_post_thumbnail()) {
+                the_post_thumbnail('large');
             }
-        }
-        
-        echo '</div>'; // Fermeture de photo-information//
-        
-        echo '</div>'; // Fermeture de related-photo-img-accueil//
 
-    endwhile;
-endif;
+            // Afficher la div pour les informations supplémentaires//
+            echo '<div class="photo-information">';
+            echo '<div class="photo-info-left">';
+            echo '<p>' . get_the_title() . '</p>'; // Afficher le titre de la photo//
+            echo '</div>'; // Fermeture de photo-info-left//
+
+            // Récupérer les termes de la taxonomie "categorie"
+            $categories = get_the_terms(get_the_ID(), 'categorie');
+            if ($categories && !is_wp_error($categories)) {
+                foreach ($categories as $category) {
+                    echo '<div class="photo-info-right">';
+                    echo '<p>' . $category->name . '</p>'; // Afficher le nom de la catégorie de la photo//
+                    echo '</div>'; // Fermeture de photo-info-right//
+                }
+            }
+
+            echo '</div>'; // Fermeture de photo-information//
+            echo '</div>'; // Fermeture de related-photo-img-accueil//
+
+        endwhile;
+    endif;
 
 
     
@@ -156,37 +158,49 @@ function filter_photos() {
     }
 
     $query = new WP_Query($args);
-
     if ($query->have_posts()) :
         while ($query->have_posts()) : $query->the_post();
-            // le même code HTML que pour charger les photos se trouvant sur la page d'accueil //
+            // le même code HTML que pour charger les photos se trouvant sur la page d'accueil//
             echo '<div class="related-photo-img-accueil">';
-            echo '<a href="' . get_permalink() . '">';
-            echo '<div class="photo-overlay">';
-            echo '<img class="fullscreen-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_fullscreen.png" alt="fullscreen icon">';
-            echo '<img class="eye-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_eye.png" alt="eye icon">';
-            echo '</div>';
+    
+           // Ajouter la classe photo-overlay//
+           echo '<div class="photo-overlay">';
+           echo '<a href="' . get_permalink() . '">';
+           echo '<img class="eye-icon" src="' . get_template_directory_uri() . '/Assets/Images/Icon_eye.png" alt="eye icon">';
+           echo '</a>'; // Fermer la première balise a//
+
+           echo '<a href="#" class="fullscreen-icon">';
+           echo '<img src="' . get_template_directory_uri() . '/Assets/Images/Icon_fullscreen.png" alt="fullscreen icon" data-large-url="' . wp_get_attachment_image_src(get_post_thumbnail_id(), 'large')[0] . '">'; // Ajouter data-large-url
+           echo '</a>'; // Fermer la seconde balise a//
+           echo '</div>'; // Fermeture de photo-overlay//
+
+    
+            // Afficher la photo//
             if (has_post_thumbnail()) {
                 the_post_thumbnail('large');
             }
-            echo '</a>';
+    
+            // Afficher la div pour les informations supplémentaires//
             echo '<div class="photo-information">';
             echo '<div class="photo-info-left">';
-            echo '<p>' . get_the_title() . '</p>';
-            echo '</div>';
+            echo '<p>' . get_the_title() . '</p>'; // Afficher le titre de la photo//
+            echo '</div>'; // Fermeture de photo-info-left//
+    
+            // Récupérer les termes de la taxonomie "categorie"
             $categories = get_the_terms(get_the_ID(), 'categorie');
             if ($categories && !is_wp_error($categories)) {
                 foreach ($categories as $category) {
                     echo '<div class="photo-info-right">';
-                    echo '<p>' . $category->name . '</p>';
-                    echo '</div>';
+                    echo '<p>' . $category->name . '</p>'; // Afficher le nom de la catégorie de la photo//
+                    echo '</div>'; // Fermeture de photo-info-right//
                 }
             }
-            echo '</div>';
-            echo '</div>';
+    
+            echo '</div>'; // Fermeture de photo-information//
+            echo '</div>'; // Fermeture de related-photo-img-accueil//
+    
         endwhile;
     endif;
-
     wp_die();
 }
 
