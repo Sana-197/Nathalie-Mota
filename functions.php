@@ -42,9 +42,9 @@ add_action('wp_enqueue_scripts', 'enqueue_lightbox_script');
 // Js/ ajax script//
 function my_enqueue_scripts() {
     wp_enqueue_script('jquery');
-    // Enqueue custom script
+    // Enqueue custom script//
     wp_enqueue_script('custom-script', get_template_directory_uri() . '/Assets/Js/script.js', array('jquery'), null, true);
-    // Localize the AJAX URL for use in script.js
+    // Localize the AJAX URL for use in script.js//
     wp_localize_script('custom-script', 'ajax_object', array('ajax_url' => admin_url('admin-ajax.php')));
 }
 add_action('wp_enqueue_scripts', 'my_enqueue_scripts');
